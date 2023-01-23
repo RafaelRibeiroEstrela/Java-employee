@@ -1,0 +1,45 @@
+create table tb_employee(
+	id serial,
+	name varchar(255),
+	cpf varchar(15),
+	age int,
+	register int,
+	admission_date date,
+	resignation_date date,
+	salary numeric(2,9),
+	constraint tb_employee_id_pk primary key(id),
+	constraint tb_employee_cpf_un unique(cpf),
+	constraint tb_employee_register_un unique(register)
+
+);
+
+alter table tb_employee
+alter column salary type numeric(11,2);
+
+create table tb_developer(
+	id serial,
+	language varchar(255),
+	database varchar(255),
+	level varchar(255),
+	id_employee int,
+	constraint tb_developer_id_pk primary key(id),
+	constraint tb_developer_id_employee_fk foreign key(id_employee) references tb_employee(id)
+);
+
+create table tb_driver(
+	id serial,
+	cnh int,
+	id_employee int,
+	constraint tb_driver_id_pk primary key(id),
+	constraint tb_driver_cnh_un unique(cnh),
+	constraint tb_driver_id_employee_fk foreign key(id_employee) references tb_employee(id)
+);
+
+create table tb_driver_categorie(
+	id serial, 
+	name varchar(255),
+	id_driver int,
+	constraint tb_driver_categorie_id_pk primary key(id),
+	constraint tb_driver_categorie_name_un unique(name),
+	constraint tb_driver_categorie_id_driver_fk foreign key(id_driver) references tb_driver(id)
+);
