@@ -16,5 +16,7 @@ public interface EmployeeRepository {
 
     Employee findByCpf(String cpf);
 
+    List<Employee> findAll();
+
 
 }

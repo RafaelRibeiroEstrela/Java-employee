@@ -8,6 +8,9 @@ import com.example.employeejdbc.services.exceptions.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
@@ -59,6 +62,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         repository.delete(id);
     }
 
+    @Override
+    public List<EmployeeDTO> findAll() {
+        return repository.findAll().stream()
+                .map(employee -> new EmployeeDTO(employee))
+                .collect(Collectors.toList());
+    }
+
     private void copyEmployeeDTOToEmployee(EmployeeDTO dto, Employee employee){
         employee.setName(dto.getName());
         employee.setAge(dto.getAge());
@@ -66,7 +76,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setRegister(dto.getRegister());
         employee.setAdmissionDate(dto.getAdmissionDate());
         employee.setResignationDate(dto.getResignationDate());
+        employee.setSalary(dto.getSalary());
     }
+
+
 
     private void verifyRules(EmployeeDTO dto){
         if (dto.getAge() < 16){

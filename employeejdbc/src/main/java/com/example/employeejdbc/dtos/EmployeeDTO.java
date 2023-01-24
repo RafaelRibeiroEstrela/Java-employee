@@ -1,6 +1,7 @@
 package com.example.employeejdbc.dtos;
 
 import com.example.employeejdbc.entities.Employee;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -25,8 +26,10 @@ public class EmployeeDTO implements Serializable {
     private Integer register;
 
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate admissionDate;
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate resignationDate;
 
     private Double salary;
