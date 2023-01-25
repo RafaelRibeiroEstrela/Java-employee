@@ -6,7 +6,7 @@ create table tb_employee(
 	register int,
 	admission_date date,
 	resignation_date date,
-	salary numeric(11,2);
+	salary numeric(11,2),
 	constraint tb_employee_id_pk primary key(id),
 	constraint tb_employee_cpf_un unique(cpf),
 	constraint tb_employee_register_un unique(register)

@@ -12,11 +12,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class EmployeeRepositoryImpl implements EmployeeRepository {
 
-    private final String FIND_BY_ID = "SELECT * FROM tb_employee WHERE id = ?";
     private final String SAVE = "INSERT INTO tb_employee (name, cpf, age, register, admission_date, resignation_date, salary) VALUES (?,?,?,?,?,?,?)";
 
     private final String UPDATE = "UPDATE tb_employee SET name=?, cpf=?, age=?, register=?, admission_date=?, resignation_date=?, salary=? WHERE id=?";
@@ -25,20 +25,16 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 
     private final String FIND_BY_CPF = "SELECT * FROM tb_employee WHERE cpf = ?";
 
-    private final String FIND_ALL = "SELECT * FROM tb_employee";
-
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
 
     @Override
-    public Employee findById(Long id) {
-        try{
-            return jdbcTemplate.queryForObject(FIND_BY_ID, new Object[] { id }, new EmployeeMapper());
-        } catch (DataAccessException e){
-            return null;
-        }
+    public Optional<Employee> findById(Long id) {
+        String sql = "SELECT * FROM tb_employee WHERE id = ?";
+        return jdbcTemplate.query(sql, new EmployeeMapper(), id)
+                .stream().findFirst();
     }
 
     @Override
@@ -59,21 +55,16 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     }
 
     @Override
-    public Employee findByCpf(String cpf) {
-        try{
-            return jdbcTemplate.queryForObject(FIND_BY_CPF, new Object[] { cpf }, new EmployeeMapper());
-        }catch (DataAccessException e){
-            return null;
-        }
+    public Optional<Employee> findByCpf(String cpf) {
+        String sql = "SELECT * FROM tb_employee WHERE cpf = ?";
+        return jdbcTemplate.query(sql, new EmployeeMapper(), cpf).stream().findFirst();
+
     }
 
     @Override
     public List<Employee> findAll() {
-        try{
-            return jdbcTemplate.query(FIND_ALL, new EmployeeMapper());
-        }catch (DataAccessException e){
-            return new ArrayList<>();
-        }
+        String sql = "SELECT * FROM tb_employee";
+        return jdbcTemplate.query(sql, new EmployeeMapper());
     }
 
 

@@ -3,10 +3,11 @@ package com.example.employeejdbc.repositories;
 import com.example.employeejdbc.entities.Employee;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface EmployeeRepository {
 
-    Employee findById(Long id);
+    Optional<Employee> findById(Long id);
 
     int save(Employee employee);
 
@@ -14,7 +15,7 @@ public interface EmployeeRepository {
 
     int delete(Long id);
 
-    Employee findByCpf(String cpf);
+    Optional<Employee> findByCpf(String cpf);
 
     List<Employee> findAll();
 
