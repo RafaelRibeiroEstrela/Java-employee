@@ -36,6 +36,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void save(EmployeeDTO dto) {
+        verifyRules(dto);
         if (repository.findByCpf(dto.getCpf()).isPresent()){
             throw new ServiceException("Já existe um empregado com cpf = " + dto.getCpf());
         }
@@ -46,6 +47,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void update(Long id, EmployeeDTO dto) {
+        verifyRules(dto);
         Employee employee = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Registro não encontrado com id = " + id));
         if (!employee.getCpf().equals(dto.getCpf())){
