@@ -1,5 +1,6 @@
 package com.example.employeejdbc.configs;
 
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,9 +34,9 @@ public class DatabaseConfig {
 
     @Bean
     public DataSource getConfigDataSource() throws SQLException {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        HikariDataSource dataSource = new HikariDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://" + host + ":" + port + "/" + database);
+        dataSource.setJdbcUrl("jdbc:postgresql://" + host + ":" + port + "/" + database);
         dataSource.setUsername(username);
         dataSource.setPassword(password);
         return dataSource;

@@ -1,0 +1,50 @@
+package com.example.employeejpa.resources;
+
+import com.example.employeejpa.dtos.EmployeeDTO;
+import com.example.employeejpa.services.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+
+@RestController
+@RequestMapping(value = "/employees")
+public class EmployeeResource {
+
+    @Autowired
+    private EmployeeService service;
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<EmployeeDTO> findById(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(service.findById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<EmployeeDTO>> findAll(){
+        return ResponseEntity.status(HttpStatus.OK).body(service.findAll());
+    }
+
+    @PostMapping
+    public ResponseEntity<EmployeeDTO> save(@RequestBody @Valid EmployeeDTO dto){
+        service.save(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<EmployeeDTO> update(@PathVariable Long id, @RequestBody @Valid EmployeeDTO dto){
+        service.update(id, dto);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<EmployeeDTO> delete(@PathVariable Long id){
+        service.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+
+}
+
